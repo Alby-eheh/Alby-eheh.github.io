@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Smart Deals & Regali di Natale 🎄</title>
+  <!-- Telegram WebApp SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    :root {
+      --bg-color: var(--tg-theme-bg-color, #0f172a);
+      --card-bg: var(--tg-theme-secondary-bg-color, #1e293b);
+      --text-color: var(--tg-theme-text-color, #f8fafc);
+      --hint-color: var(--tg-theme-hint-color, #94a3b8);
+      --btn-color: var(--tg-theme-button-color, #ff9900);
+      --btn-text: var(--tg-theme-button-text-color, #ffffff);
+      --accent-red: #ef4444;
+      --accent-green: #10b981;
+      --accent-gold: #f59e0b;
+      --border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      min-height: 100vh;
+      padding-bottom: 90px;
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--bg-color);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 14px 16px 10px;
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .brand-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+    }
+
+    .brand-title span.badge {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 999px;
+      text-transform: uppercase;
+    }
+
+    .user-greeting {
+      font-size: 0.8rem;
+      color: var(--hint-color);
+      white-space: nowrap;
+    }
+
+    /* Search Bar */
+    .search-box {
+      position: relative;
+      margin-bottom: 10px;
+    }
+
+    .search-input {
+      width: 100%;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 10px 14px 10px 38px;
+      color: var(--text-color);
+      font-size: 0.92rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent-gold);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1rem;
+      opacity: 0.6;
+    }
+
+    /* Category Pills */
+    .categories-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 4px;
+    }
+
+    .categories-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .cat-pill {
+      flex: 0 0 auto;
+      padding: 7px 13px;
+      border-radius: 20px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-color);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s ease;
+    }
+
+    .cat-pill.active {
+      background: var(--accent-gold);
+      color: #000;
+      border-color: var(--accent-gold);
+    }
+
+    .cat-pill.xmas-pill.active {
+      background: linear-gradient(135deg, #dc2626, #991b1b);
+      color: #fff;
+      border-color: #ef4444;
+    }
+
+    /* Sub-filters (Price range) */
+    .price-filters {
+      display: flex;
+      gap: 6px;
+      padding: 10px 16px 4px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .price-pill {
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid transparent;
+      color: var(--hint-color);
+      cursor: pointer;
+    }
+
+    .price-pill.active {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--accent-gold);
+      border-color: rgba(245, 158, 11, 0.4);
+      font-weight: 700;
+    }
+
+    /* Deals Grid */
+    .deals-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      padding: 10px 16px;
+    }
+
+    @media (min-width: 640px) {
+      .deals-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    /* Deal Card */
+    .deal-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .deal-card:active {
+      transform: scale(0.98);
+    }
+
+    .image-container {
+      position: relative;
+      width: 100%;
+      padding-top: 100%;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .deal-img {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      right: 8px;
+      bottom: 8px;
+      width: calc(100% - 16px);
+      height: calc(100% - 16px);
+      object-fit: contain;
+    }
+
+    .badge-tag {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      z-index: 2;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(4px);
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 3px 7px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .badge-xmas {
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+      color: #ffffff;
+      border: none;
+    }
+
+    .disc-tag {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      z-index: 2;
+      background: #ef4444;
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 3px 6px;
+      border-radius: 6px;
+    }
+
+    .card-content {
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      justify-content: space-between;
+    }
+
+    .deal-title {
+      font-size: 0.82rem;
+      font-weight: 600;
+      line-height: 1.25;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 6px;
+      color: var(--text-color);
+    }
+
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .current-price {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: #10b981;
+    }
+
+    .orig-price {
+      font-size: 0.75rem;
+      color: var(--hint-color);
+      text-decoration: line-through;
+    }
+
+    /* Card Action Buttons */
+    .actions-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .btn-buy {
+      width: 100%;
+      background: #ff9900;
+      color: #111;
+      font-size: 0.78rem;
+      font-weight: 800;
+      padding: 8px 10px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .btn-buy:active {
+      opacity: 0.85;
+    }
+
+    .btn-copy {
+      width: 100%;
+      background: rgba(37, 211, 102, 0.15);
+      border: 1px solid rgba(37, 211, 102, 0.35);
+      color: #25d366;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 6px 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .btn-copy:active {
+      background: rgba(37, 211, 102, 0.3);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(120px);
+      background: #1e293b;
+      border: 1px solid #10b981;
+      color: #f8fafc;
+      padding: 10px 18px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 100;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Bottom Price Radar Floating Banner */
+    .radar-banner {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border-color);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 40;
+    }
+
+    .radar-info {
+      font-size: 0.78rem;
+      line-height: 1.25;
+    }
+
+    .radar-info strong {
+      color: var(--accent-gold);
+      display: block;
+    }
+
+    .btn-radar {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+      border: none;
+      padding: 7px 12px;
+      border-radius: 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    /* Empty state */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--hint-color);
+    }
+
+    .empty-state span {
+      font-size: 2.5rem;
+      display: block;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="top-bar">
+      <div class="brand-title">
+        🛍️ Smart Deals <span class="badge">Natale 2026</span>
+      </div>
+      <div class="user-greeting" id="userGreeting">Benvenuto!</div>
+    </div>
+
+    <!-- Search bar -->
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" class="search-input" placeholder="Cerca regali, friggitrici, giochi, creme..." oninput="handleSearch()">
+    </div>
+
+    <!-- Categories -->
+    <div class="categories-scroll">
+      <button class="cat-pill active" onclick="setCategory('all', this)">🌟 Tutte</button>
+      <button class="cat-pill xmas-pill" onclick="setCategory('natale', this)">🎄 Speciale Natale</button>
+      <button class="cat-pill" onclick="setCategory('lowcost', this)">🪙 Sotto 10€</button>
+      <button class="cat-pill" onclick="setCategory('casa', this)">🍳 Casa & Cucina</button>
+      <button class="cat-pill" onclick="setCategory('bambini', this)">👶 Bimbi & Giochi</button>
+      <button class="cat-pill" onclick="setCategory('bellezza', this)">💄 Bellezza</button>
+      <button class="cat-pill" onclick="setCategory('tech', this)">⚡ Tech & Gadget</button>
+    </div>
+  </header>
+
+  <!-- Price Sub-filters -->
+  <div class="price-filters">
+    <button class="price-pill active" onclick="setPriceFilter(0, this)">Tutti i prezzi</button>
+    <button class="price-pill" onclick="setPriceFilter(10, this)">Sotto 10€</button>
+    <button class="price-pill" onclick="setPriceFilter(25, this)">Sotto 25€</button>
+    <button class="price-pill" onclick="setPriceFilter(50, this)">Sotto 50€</button>
+  </div>
+
+  <!-- Deals Grid -->
+  <main class="deals-grid" id="dealsGrid">
+    <div class="empty-state">
+      <span>⏳</span>
+      Caricamento offerte e regali in corso...
+    </div>
+  </main>
+
+  <!-- Floating Toast -->
+  <div id="toast" class="toast">
+    <span>✅</span> Copiato negli appunti! Pronto per WhatsApp
+  </div>
+
+  <!-- Price Radar Sticky Footer -->
+  <div class="radar-banner">
+    <div class="radar-info">
+      <strong>🔔 Cerchi un prodotto specifico?</strong>
+      Monitora il prezzo con il bot Telegram
+    </div>
+    <a href="https://t.me/AmazonPriceRadar_bot" class="btn-radar" target="_blank" onclick="openRadar(event)">Attiva Radar</a>
+  </div>
+
+  <script>
+    // Inizializza Telegram WebApp
+    const tg = window.Telegram ? window.Telegram.WebApp : null;
+    if (tg) {
+      tg.ready();
+      tg.expand();
+      if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+        const u = tg.initDataUnsafe.user;
+        const name = u.first_name ? u.first_name : "Utente";
+        document.getElementById("userGreeting").textContent = "Ciao, " + name + " 👋";
+      }
+    }
+
+    let allDeals = [];
+    let currentCategory = 'all';
+    let maxPriceFilter = 0;
+    let searchQuery = '';
+
+    // Carica offerte da deals.json
+    async function loadDeals() {
+      try {
+        const res = await fetch('deals.json?v=' + Date.now());
+        if (!res.ok) throw new Error("Fetch error");
+        allDeals = await res.json();
+      } catch (err) {
+        console.warn("Caricamento fallback...");
+        // Fallback minimale se fetch locale o offline
+        allDeals = [
+          {
+            asin: "B0H2MQZ6K8",
+            title: "Yankee Candle Set Regalo Candele Profumate Natalizie",
+            short_title: "Yankee Candle Set Regalo Candele Natalizie",
+            price: "15,99 €",
+            original_price: "19,99 €",
+            discount_pct: 20,
+            image_url: "https://m.media-amazon.com/images/I/71YyO3Yv8GL._AC_SL1500_.jpg",
+            affiliate_url: "https://www.amazon.it/dp/B0H2MQZ6K8?tag=convenientiof-21",
+            category: "natale",
+            badge: "🎄 Regalo Natale",
+            whatsapp_text: "🎄 *IDEA REGALO DI NATALE (-20%)*\n🎁 *Yankee Candle Set Regalo Candele Natalizie*\n💰 Prezzo regalo: *15,99 €* invece di ~19,99 €~ 🚚 _Prime_\n👉 *Guarda l'offerta qui (#adv):*\nhttps://www.amazon.it/dp/B0H2MQZ6K8?tag=convenientiof-21"
+          }
+        ];
+      }
+      renderDeals();
+    }
+
+    function parsePrice(priceStr) {
+      if (!priceStr) return 0;
+      const clean = priceStr.replace(/[^0-9,]/g, '').replace(',', '.');
+      return parseFloat(clean) || 0;
+    }
+
+    function setCategory(cat, el) {
+      currentCategory = cat;
+      document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+      el.classList.add('active');
+      triggerHaptic();
+      renderDeals();
+    }
+
+    function setPriceFilter(maxP, el) {
+      maxPriceFilter = maxP;
+      document.querySelectorAll('.price-pill').forEach(p => p.classList.remove('active'));
+      el.classList.add('active');
+      triggerHaptic();
+      renderDeals();
+    }
+
+    function handleSearch() {
+      searchQuery = document.getElementById('searchInput').value.trim().toLowerCase();
+      renderDeals();
+    }
+
+    function triggerHaptic() {
+      if (tg && tg.HapticFeedback) {
+        tg.HapticFeedback.impactOccurred('light');
+      }
+    }
+
+    function copyWhatsApp(text, e) {
+      e.stopPropagation();
+      if (!text) return;
+
+      navigator.clipboard.writeText(text).then(() => {
+        if (tg && tg.HapticFeedback) {
+          tg.HapticFeedback.notificationOccurred('success');
+        }
+        showToast();
+      }).catch(() => {
+        // Fallback copy
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        showToast();
+      });
+    }
+
+    function showToast() {
+      const toast = document.getElementById("toast");
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 2500);
+    }
+
+    function openDeal(url, e) {
+      e.preventDefault();
+      triggerHaptic();
+      if (tg && tg.openLink) {
+        tg.openLink(url);
+      } else {
+        window.open(url, "_blank");
+      }
+    }
+
+    function openRadar(e) {
+      e.preventDefault();
+      triggerHaptic();
+      const botUrl = "https://t.me/AmazonPriceRadar_bot";
+      if (tg && tg.openTelegramLink) {
+        tg.openTelegramLink(botUrl);
+      } else {
+        window.open(botUrl, "_blank");
+      }
+    }
+
+    function renderDeals() {
+      const grid = document.getElementById('dealsGrid');
+      grid.innerHTML = '';
+
+      let filtered = allDeals.filter(deal => {
+        // Categoria
+        if (currentCategory !== 'all' && deal.category !== currentCategory) {
+          return false;
+        }
+        // Filtro Prezzo Max
+        const p = parsePrice(deal.price);
+        if (maxPriceFilter > 0 && p > maxPriceFilter) {
+          return false;
+        }
+        // Ricerca testo
+        if (searchQuery) {
+          const matchTitle = (deal.title || '').toLowerCase().includes(searchQuery);
+          const matchCat = (deal.category || '').toLowerCase().includes(searchQuery);
+          if (!matchTitle && !matchCat) return false;
+        }
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <span>🔍</span>
+            Nessuna offerta trovata con questi filtri.<br>
+            Prova a cambiare categoria o budget!
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach(deal => {
+        const card = document.createElement('div');
+        card.className = 'deal-card';
+
+        const discTag = deal.discount_pct && deal.discount_pct > 0
+          ? `<span class="disc-tag">-${deal.discount_pct}%</span>`
+          : '';
+
+        let badgeTag = '';
+        if (deal.badge) {
+          const isXmasBadge = deal.badge.includes('Natale') || deal.badge.includes('Regalo');
+          badgeTag = `<span class="badge-tag ${isXmasBadge ? 'badge-xmas' : ''}">${deal.badge}</span>`;
+        }
+
+        const origPrice = deal.original_price && deal.original_price !== deal.price
+          ? `<span class="orig-price">${deal.original_price}</span>`
+          : '';
+
+        const escapedWa = (deal.whatsapp_text || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+
+        card.innerHTML = `
+          <div class="image-container" onclick="openDeal('${deal.affiliate_url}', event)">
+            ${badgeTag}
+            ${discTag}
+            <img class="deal-img" src="${deal.image_url}" alt="${deal.short_title || deal.title}" loading="lazy">
+          </div>
+          <div class="card-content">
+            <div class="deal-title" title="${deal.title}">${deal.short_title || deal.title}</div>
+            <div class="price-row">
+              <span class="current-price">${deal.price}</span>
+              ${origPrice}
+            </div>
+            <div class="actions-row">
+              <a href="${deal.affiliate_url}" class="btn-buy" onclick="openDeal('${deal.affiliate_url}', event)">
+                🛒 Vedi su Amazon
+              </a>
+              <button class="btn-copy" onclick="copyWhatsApp('${escapedWa}', event)">
+                📋 Copia per WhatsApp
+              </button>
+            </div>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    // Caricamento iniziale
+    loadDeals();
+  </script>
+</body>
+</html>
