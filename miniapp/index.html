@@ -628,7 +628,7 @@
     }
 
     // Copia WhatsApp INVIOLABILE compatibile con qualsiasi WebView iOS/Android/Desktop
-    function copyDealWhatsApp(asin, e) {
+    async function copyDealWhatsApp(asin, e) {
       if (e) {
         e.stopPropagation();
         e.preventDefault();
@@ -641,36 +641,72 @@
 
       let copied = false;
 
-      // Metodo 1: Textarea invisibile con execCommand (infallibile in WebView iOS/Android)
-      try {
-        const ta = document.createElement("textarea");
-        ta.value = text;
-        ta.setAttribute("readonly", "");
-        ta.style.position = "fixed";
-        ta.style.top = "-9999px";
-        ta.style.left = "-9999px";
-        document.body.appendChild(ta);
-        ta.focus();
-        ta.select();
-        ta.setSelectionRange(0, 99999);
-        copied = document.execCommand("copy");
-        document.body.removeChild(ta);
-      } catch (err) {
-        console.warn("execCommand failed:", err);
+      // 1. Prova prima navigator.clipboard moderno
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        try {
+          await navigator.clipboard.writeText(text);
+          copied = true;
+        } catch (err) {
+          console.warn("navigator.clipboard failed:", err);
+        }
       }
 
-      // Metodo 2: Clipboard API moderna
-      if (!copied && navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(() => {
-          showToast();
-          triggerHaptic('success');
-        }).catch(err => {
-          console.warn("writeText failed:", err);
-          showToast();
-        });
+      // 2. Se fallisce, usa textarea sincronizzata a schermo (opacity 0.01 per ingannare i blocchi WebView)
+      if (!copied) {
+        try {
+          const ta = document.createElement("textarea");
+          ta.value = text;
+          ta.style.position = "fixed";
+          ta.style.top = "50%";
+          ta.style.left = "50%";
+          ta.style.width = "200px";
+          ta.style.height = "100px";
+          ta.style.opacity = "0.01";
+          ta.style.zIndex = "9999";
+          document.body.appendChild(ta);
+          ta.focus();
+          ta.select();
+          ta.setSelectionRange(0, text.length);
+          copied = document.execCommand("copy");
+          document.body.removeChild(ta);
+        } catch (err) {
+          console.warn("execCommand fallback failed:", err);
+        }
+      }
+
+      // Feedback visivo immediato sul pulsante cliccato!
+      const btn = (e && e.currentTarget) || (e && e.target);
+      if (btn) {
+        const origText = btn.innerHTML;
+        btn.innerHTML = "✅ Copiato!";
+        btn.style.background = "#22c55e";
+        btn.style.color = "#ffffff";
+        setTimeout(() => {
+          btn.innerHTML = origText;
+          btn.style.background = "";
+          btn.style.color = "";
+        }, 2200);
+      }
+
+      showToast();
+      triggerHaptic('success');
+    }
+
+    // Condivisione diretta in 1-tap su WhatsApp
+    function shareDealWhatsApp(asin, e) {
+      if (e) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
+      const deal = window.dealsMap[asin];
+      if (!deal) return;
+      const text = deal.whatsapp_text || `${deal.short_title || deal.title}\n💰 Prezzo: ${deal.price}\n👉 Link (#adv): ${deal.affiliate_url}`;
+      copyDealWhatsApp(asin, e);
+      const waUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(text);
+      if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openLink) {
+        window.Telegram.WebApp.openLink(waUrl);
       } else {
-        showToast();
-        triggerHaptic('success');
+        window.open(waUrl, "_blank");
       }
     }
 
