@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>Smart Deals & Regali 🛍️</title>
   <!-- Telegram WebApp SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -346,14 +349,43 @@
       opacity: 0.85;
     }
 
-    .btn-copy {
+    .wa-buttons-row {
+      display: flex;
+      gap: 6px;
       width: 100%;
+    }
+
+    .btn-wa-direct {
+      flex: 1.15;
+      background: #25d366;
+      color: #ffffff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 7px 6px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      text-decoration: none;
+      transition: transform 0.1s, opacity 0.2s;
+    }
+
+    .btn-wa-direct:active {
+      transform: scale(0.97);
+      opacity: 0.9;
+    }
+
+    .btn-copy {
+      flex: 1;
       background: rgba(37, 211, 102, 0.15);
       border: 1px solid rgba(37, 211, 102, 0.35);
       color: #25d366;
       font-size: 0.72rem;
       font-weight: 700;
-      padding: 7px 8px;
+      padding: 7px 6px;
       border-radius: 8px;
       cursor: pointer;
       display: flex;
@@ -361,6 +393,7 @@
       justify-content: center;
       gap: 4px;
       user-select: none;
+      transition: transform 0.1s;
     }
 
     .btn-copy:active {
@@ -636,8 +669,50 @@
       }
     }
 
-    // Copia WhatsApp INVIOLABILE compatibile con qualsiasi WebView iOS/Android/Desktop
-    async function copyDealWhatsApp(asin, e) {
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Copia sincrona ultra-compatibile con iOS WebKit, Android WebView e Telegram Mini App
+    function copyTextToClipboard(text) {
+      let successful = false;
+      try {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.top = "0";
+        ta.style.left = "0";
+        ta.style.width = "2em";
+        ta.style.height = "2em";
+        ta.style.padding = "0";
+        ta.style.border = "none";
+        ta.style.outline = "none";
+        ta.style.boxShadow = "none";
+        ta.style.background = "transparent";
+        ta.style.opacity = "0.01";
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        ta.setSelectionRange(0, text.length);
+        successful = document.execCommand("copy");
+        document.body.removeChild(ta);
+      } catch (err) {
+        successful = false;
+      }
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).catch(() => {});
+      }
+      return successful;
+    }
+
+    function copyDealWhatsApp(asin, e) {
       if (e) {
         e.stopPropagation();
         e.preventDefault();
@@ -647,43 +722,8 @@
       if (!deal) return;
 
       const text = deal.whatsapp_text || `${deal.short_title || deal.title}\n💰 Prezzo: ${deal.price}\n👉 Link (#adv): ${deal.affiliate_url}`;
+      copyTextToClipboard(text);
 
-      let copied = false;
-
-      // 1. Prova prima navigator.clipboard moderno
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        try {
-          await navigator.clipboard.writeText(text);
-          copied = true;
-        } catch (err) {
-          console.warn("navigator.clipboard failed:", err);
-        }
-      }
-
-      // 2. Se fallisce, usa textarea sincronizzata a schermo (opacity 0.01 per ingannare i blocchi WebView)
-      if (!copied) {
-        try {
-          const ta = document.createElement("textarea");
-          ta.value = text;
-          ta.style.position = "fixed";
-          ta.style.top = "50%";
-          ta.style.left = "50%";
-          ta.style.width = "200px";
-          ta.style.height = "100px";
-          ta.style.opacity = "0.01";
-          ta.style.zIndex = "9999";
-          document.body.appendChild(ta);
-          ta.focus();
-          ta.select();
-          ta.setSelectionRange(0, text.length);
-          copied = document.execCommand("copy");
-          document.body.removeChild(ta);
-        } catch (err) {
-          console.warn("execCommand fallback failed:", err);
-        }
-      }
-
-      // Feedback visivo immediato sul pulsante cliccato!
       const btn = (e && e.currentTarget) || (e && e.target);
       if (btn) {
         const origText = btn.innerHTML;
@@ -694,7 +734,7 @@
           btn.innerHTML = origText;
           btn.style.background = "";
           btn.style.color = "";
-        }, 2200);
+        }, 2000);
       }
 
       showToast();
@@ -710,7 +750,7 @@
       const deal = window.dealsMap[asin];
       if (!deal) return;
       const text = deal.whatsapp_text || `${deal.short_title || deal.title}\n💰 Prezzo: ${deal.price}\n👉 Link (#adv): ${deal.affiliate_url}`;
-      copyDealWhatsApp(asin, e);
+      copyTextToClipboard(text);
       const waUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(text);
       if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openLink) {
         window.Telegram.WebApp.openLink(waUrl);
@@ -786,10 +826,10 @@
         topSearchCard.className = 'search-fallback-card';
         topSearchCard.innerHTML = `
           <div style="font-size: 0.85rem; font-weight: 700; margin-bottom: 6px;">
-            🔍 Cerchi tutte le offerte per "<strong>${searchQuery}</strong>" su Amazon?
+            🔍 Cerchi tutte le offerte per "<strong>${escapeHtml(searchQuery)}</strong>" su Amazon?
           </div>
-          <button class="btn-buy" style="max-width: 260px; margin: 0 auto;" onclick="openAmazonSearch('${searchQuery}', event)">
-            👉 Cerca "${searchQuery}" su Amazon
+          <button class="btn-buy" style="max-width: 260px; margin: 0 auto;" onclick="openAmazonSearch(document.getElementById('searchInput').value.trim(), event)">
+            👉 Cerca su Amazon
           </button>
         `;
         grid.appendChild(topSearchCard);
@@ -802,12 +842,12 @@
         if (searchQuery) {
           empty.innerHTML = `
             <span>🛍️</span>
-            <h3>Trova "${searchQuery}" in sconto su Amazon</h3>
+            <h3>Trova "${escapeHtml(searchQuery)}" in sconto su Amazon</h3>
             <p>
-              Non abbiamo ancora salvato "${searchQuery}" nella vetrina flash, ma puoi visualizzare all'istante tutti gli sconti e i minimi storici su Amazon!
+              Non abbiamo ancora salvato "${escapeHtml(searchQuery)}" nella vetrina flash, ma puoi visualizzare all'istante tutti gli sconti e i minimi storici su Amazon!
             </p>
-            <button class="btn-buy" style="max-width: 280px; margin: 0 auto 10px; padding: 12px;" onclick="openAmazonSearch('${searchQuery}', event)">
-              🛒 Mostra risultati per "${searchQuery}"
+            <button class="btn-buy" style="max-width: 280px; margin: 0 auto 10px; padding: 12px;" onclick="openAmazonSearch(document.getElementById('searchInput').value.trim(), event)">
+              🛒 Mostra risultati su Amazon
             </button>
             <button class="btn-radar" style="max-width: 280px; margin: 0 auto; display: inline-block;" onclick="openRadar(event)">
               🔔 Monitora prezzo con il Bot
@@ -829,7 +869,7 @@
         card.className = 'deal-card';
 
         const discTag = deal.discount_pct && deal.discount_pct > 0
-          ? `<span class="disc-tag">-${deal.discount_pct}%</span>`
+          ? `<span class="disc-tag">-${escapeHtml(deal.discount_pct)}%</span>`
           : '';
 
         let badgeTag = '';
@@ -837,32 +877,43 @@
           const isXmasBadge = deal.badge.includes('Natale') || deal.badge.includes('Regalo');
           const isFashionBadge = deal.badge.includes('Moda') || deal.badge.includes('Marca');
           const bClass = isXmasBadge ? 'badge-xmas' : (isFashionBadge ? 'badge-fashion' : '');
-          badgeTag = `<span class="badge-tag ${bClass}">${deal.badge}</span>`;
+          badgeTag = `<span class="badge-tag ${bClass}">${escapeHtml(deal.badge)}</span>`;
         }
 
         const origPrice = deal.original_price && deal.original_price !== deal.price
-          ? `<span class="orig-price">${deal.original_price}</span>`
+          ? `<span class="orig-price">${escapeHtml(deal.original_price)}</span>`
           : '';
 
+        const safeTitle = escapeHtml(deal.short_title || deal.title);
+        const safePrice = escapeHtml(deal.price);
+        const safeUrl = encodeURI(deal.affiliate_url);
+        const safeImg = encodeURI(deal.image_url);
+        const safeAsin = escapeHtml(deal.asin);
+
         card.innerHTML = `
-          <div class="image-container" onclick="openDeal('${deal.affiliate_url}', event)">
+          <div class="image-container" onclick="openDeal('${safeUrl}', event)">
             ${badgeTag}
             ${discTag}
-            <img class="deal-img" src="${deal.image_url}" alt="${deal.short_title || deal.title}" loading="lazy">
+            <img class="deal-img" src="${safeImg}" alt="${safeTitle}" loading="lazy">
           </div>
           <div class="card-content">
-            <div class="deal-title" title="${deal.title}">${deal.short_title || deal.title}</div>
+            <div class="deal-title" title="${escapeHtml(deal.title)}">${safeTitle}</div>
             <div class="price-row">
-              <span class="current-price">${deal.price}</span>
+              <span class="current-price">${safePrice}</span>
               ${origPrice}
             </div>
             <div class="actions-row">
-              <button class="btn-buy" onclick="openDeal('${deal.affiliate_url}', event)">
+              <button class="btn-buy" onclick="openDeal('${safeUrl}', event)">
                 🛒 Vedi su Amazon
               </button>
-              <button class="btn-copy" onclick="copyDealWhatsApp('${deal.asin}', event)">
-                📋 Copia per WhatsApp
-              </button>
+              <div class="wa-buttons-row">
+                <button class="btn-wa-direct" onclick="shareDealWhatsApp('${safeAsin}', event)">
+                  💬 Invia WhatsApp
+                </button>
+                <button class="btn-copy" onclick="copyDealWhatsApp('${safeAsin}', event)">
+                  📋 Copia
+                </button>
+              </div>
             </div>
           </div>
         `;
