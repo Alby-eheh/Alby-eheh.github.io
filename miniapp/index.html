@@ -36,7 +36,7 @@
       background-color: var(--bg-color);
       color: var(--text-color);
       min-height: 100vh;
-      padding-bottom: 90px;
+      padding-bottom: 150px;
       overflow-x: hidden;
     }
 
@@ -562,6 +562,13 @@
     </div>
   </main>
 
+  <!-- Disclosure legale Amazon Associates -->
+  <footer class="legal-footer" style="max-width:720px;margin:18px auto 0;padding:0 16px;font-size:0.72rem;line-height:1.5;opacity:0.75;text-align:center;">
+    🏷️ #adv &mdash; In qualit&agrave; di Affiliato Amazon ricevo un guadagno dagli acquisti idonei, senza alcun costo aggiuntivo per te.<br>
+    I prezzi e la disponibilit&agrave; sono quelli rilevati al momento della pubblicazione e possono variare: verifica sempre il prezzo finale su Amazon.<br>
+    <a href="../privacy.html" style="color:inherit;text-decoration:underline;">Privacy Policy</a>
+  </footer>
+
   <!-- Floating Toast -->
   <div id="toast" class="toast">
     <span>✅</span> Testo WhatsApp copiato! Incollalo in chat
@@ -573,7 +580,7 @@
       <strong>🔔 Vuoi monitorare un prezzo?</strong>
       Invia il link al Bot Radar per avvisi sui cali
     </div>
-    <a href="https://t.me/AmazonPriceRadar_bot" class="btn-radar" target="_blank" onclick="openRadar(event)">Attiva Radar</a>
+    <a href="https://t.me/AmazonTracciaPrezzi_bot" class="btn-radar" target="_blank" onclick="openRadar(event)">Attiva Radar</a>
   </div>
 
   <script>
@@ -624,8 +631,10 @@
 
       // Mappa globale per ASIN (risolve al 100% qualsiasi errore di escaping dei caratteri)
       window.dealsMap = {};
+      allDeals = Array.isArray(allDeals) ? allDeals : [];
       allDeals.forEach(d => {
-        if (d.asin) window.dealsMap[d.asin] = d;
+        const key = sanitizeAsin(d.asin);
+        if (key) window.dealsMap[key] = d;
       });
 
       document.getElementById('countAll').textContent = allDeals.length;
@@ -667,6 +676,32 @@
           tg.HapticFeedback.impactOccurred('light');
         }
       }
+    }
+
+    // ASIN: solo caratteri alfanumerici (evita qualsiasi injection negli handler inline)
+    function sanitizeAsin(asin) {
+      return String(asin || '').replace(/[^A-Za-z0-9]/g, '');
+    }
+
+    // Accetta solo URL https verso domini Amazon / immagini Amazon
+    function safeHttpsUrl(url, allowedHostRegex) {
+      try {
+        const u = new URL(String(url || ''));
+        if (u.protocol !== 'https:') return '';
+        if (allowedHostRegex && !allowedHostRegex.test(u.hostname)) return '';
+        return u.href;
+      } catch (e) {
+        return '';
+      }
+    }
+    const AMAZON_LINK_HOST = /(^|\.)(amazon\.[a-z.]+|amzn\.(to|eu))$/i;
+    const AMAZON_IMG_HOST = /(^|\.)(media-amazon\.com|ssl-images-amazon\.com|amazon\.[a-z.]+)$/i;
+
+    function openDealByAsin(asin, e) {
+      if (e) { e.preventDefault(); e.stopPropagation(); }
+      const deal = window.dealsMap[sanitizeAsin(asin)];
+      const url = deal ? safeHttpsUrl(deal.affiliate_url, AMAZON_LINK_HOST) : '';
+      if (url) openDeal(url, null);
     }
 
     function escapeHtml(str) {
@@ -718,7 +753,7 @@
         e.preventDefault();
       }
 
-      const deal = window.dealsMap[asin];
+      const deal = window.dealsMap[sanitizeAsin(asin)];
       if (!deal) return;
 
       const text = deal.whatsapp_text || `${deal.short_title || deal.title}\n💰 Prezzo: ${deal.price}\n👉 Link (#adv): ${deal.affiliate_url}`;
@@ -747,7 +782,7 @@
         e.stopPropagation();
         e.preventDefault();
       }
-      const deal = window.dealsMap[asin];
+      const deal = window.dealsMap[sanitizeAsin(asin)];
       if (!deal) return;
       const text = deal.whatsapp_text || `${deal.short_title || deal.title}\n💰 Prezzo: ${deal.price}\n👉 Link (#adv): ${deal.affiliate_url}`;
       copyTextToClipboard(text);
@@ -789,7 +824,7 @@
     function openRadar(e) {
       if (e) e.preventDefault();
       triggerHaptic();
-      const botUrl = "https://t.me/AmazonPriceRadar_bot";
+      const botUrl = "https://t.me/AmazonTracciaPrezzi_bot";
       if (tg && tg.openTelegramLink) {
         tg.openTelegramLink(botUrl);
       } else {
@@ -886,12 +921,12 @@
 
         const safeTitle = escapeHtml(deal.short_title || deal.title);
         const safePrice = escapeHtml(deal.price);
-        const safeUrl = encodeURI(deal.affiliate_url);
-        const safeImg = encodeURI(deal.image_url);
-        const safeAsin = escapeHtml(deal.asin);
+        const safeImg = escapeHtml(safeHttpsUrl(deal.image_url, AMAZON_IMG_HOST));
+        const safeAsin = sanitizeAsin(deal.asin);
+        if (!safeAsin || !safeHttpsUrl(deal.affiliate_url, AMAZON_LINK_HOST)) return;
 
         card.innerHTML = `
-          <div class="image-container" onclick="openDeal('${safeUrl}', event)">
+          <div class="image-container" onclick="openDealByAsin('${safeAsin}', event)">
             ${badgeTag}
             ${discTag}
             <img class="deal-img" src="${safeImg}" alt="${safeTitle}" loading="lazy">
@@ -903,7 +938,7 @@
               ${origPrice}
             </div>
             <div class="actions-row">
-              <button class="btn-buy" onclick="openDeal('${safeUrl}', event)">
+              <button class="btn-buy" onclick="openDealByAsin('${safeAsin}', event)">
                 🛒 Vedi su Amazon
               </button>
               <div class="wa-buttons-row">
