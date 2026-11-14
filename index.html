@@ -22,20 +22,21 @@
 
   <style>
     :root {
-      --primary: #059669;
-      --primary-dark: #047857;
-      --primary-light: #ecfdf5;
+      --primary: #ea580c;
+      --primary-dark: #c2410c;
+      --primary-light: #fff7ed;
       --secondary: #f59e0b;
       --accent: #ef4444;
       --dark: #0f172a;
+      --cream: #faf7f2;
       --gray-50: #f8fafc;
       --gray-100: #f1f5f9;
-      --gray-200: #e2e8f0;
+      --gray-200: #e7dfd5;
       --gray-600: #475569;
       --gray-900: #0f172a;
-      --card-bg: rgba(255, 255, 255, 0.95);
-      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
-      --shadow-hover: 0 20px 30px -10px rgba(5, 150, 105, 0.15), 0 10px 15px -5px rgba(0, 0, 0, 0.04);
+      --card-bg: rgba(255, 255, 255, 0.96);
+      --shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05), 0 8px 10px -6px rgba(15, 23, 42, 0.03);
+      --shadow-hover: 0 20px 30px -10px rgba(234, 88, 12, 0.16), 0 10px 15px -5px rgba(15, 23, 42, 0.04);
       --radius: 20px;
     }
 
@@ -47,7 +48,7 @@
 
     body {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: linear-gradient(180deg, #f0fdf4 0%, #f8fafc 400px, #f8fafc 100%);
+      background: linear-gradient(180deg, #fff7ed 0%, #faf7f2 420px, #f8fafc 100%);
       color: var(--dark);
       line-height: 1.6;
       padding-bottom: 60px;
@@ -77,47 +78,94 @@
     }
 
     .brand-logo {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
       object-fit: cover;
-      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
+      border: 2px solid #fed7aa;
+      box-shadow: 0 6px 16px rgba(234, 88, 12, 0.22);
     }
 
     .brand-title {
-      font-size: 1.15rem;
+      font-size: 1.2rem;
       font-weight: 800;
       letter-spacing: -0.02em;
     }
 
     .brand-subtitle {
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       color: var(--gray-600);
-      font-weight: 500;
+      font-weight: 600;
     }
 
     .verified-badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: #d1fae5;
-      color: #065f46;
+      background: #ffedd5;
+      color: #9a3412;
+      border: 1px solid #fed7aa;
       font-size: 0.78rem;
       font-weight: 700;
       padding: 6px 12px;
       border-radius: 50px;
+      white-space: nowrap;
+    }
+
+    /* QUICK NAV */
+    .quick-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    .quick-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: #ffffff;
+      border: 1px solid #fed7aa;
+      color: var(--dark);
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+      transition: all 0.2s ease;
+    }
+
+    .quick-pill:hover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .quick-pill.pin-pill {
+      border-color: #fecdd3;
+      color: #be123c;
+    }
+
+    .quick-pill.pin-pill:hover {
+      background: #e60023;
+      border-color: #e60023;
+      color: #ffffff;
     }
 
     /* HERO */
     .hero {
       text-align: center;
-      padding: 40px 0 32px;
+      padding: 28px 0 28px;
     }
 
     .hero-tag {
       display: inline-block;
-      background: #fef3c7;
-      color: #92400e;
+      background: #ffedd5;
+      color: #9a3412;
+      border: 1px solid #fed7aa;
       font-weight: 700;
       font-size: 0.85rem;
       padding: 6px 14px;
@@ -135,7 +183,7 @@
     }
 
     .hero-title span {
-      background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+      background: linear-gradient(135deg, #ea580c 0%, #f59e0b 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -144,7 +192,7 @@
       font-size: 1.05rem;
       color: var(--gray-600);
       max-width: 620px;
-      margin: 0 auto 28px;
+      margin: 0 auto 24px;
     }
 
     .hero-cta {
@@ -152,20 +200,71 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
       color: white;
       text-decoration: none;
-      font-size: 1.05rem;
+      font-size: 1rem;
       font-weight: 700;
-      padding: 16px 32px;
+      padding: 14px 26px;
       border-radius: 50px;
-      box-shadow: 0 10px 20px -5px rgba(5, 150, 105, 0.4);
+      box-shadow: 0 10px 20px -5px rgba(234, 88, 12, 0.35);
       transition: all 0.2s ease;
     }
 
     .hero-cta:hover {
       transform: translateY(-2px);
-      box-shadow: 0 15px 25px -5px rgba(5, 150, 105, 0.5);
+      box-shadow: 0 15px 25px -5px rgba(234, 88, 12, 0.45);
+    }
+
+    .hero-cta.cta-wa {
+      background: linear-gradient(135deg, #128c7e 0%, #25d366 100%);
+      box-shadow: 0 10px 20px -5px rgba(37, 211, 102, 0.35);
+    }
+
+    .hero-cta.cta-outline {
+      background: #ffffff;
+      color: var(--primary-dark);
+      border: 2px solid #fdba74;
+      box-shadow: 0 6px 14px rgba(15, 23, 42, 0.05);
+    }
+
+    .action-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .pill-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 15px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+      background: #fff7ed;
+      color: #9a3412;
+      border: 1px solid #fed7aa;
+      transition: all 0.2s ease;
+    }
+
+    .pill-btn:hover {
+      background: #ea580c;
+      color: #ffffff;
+      border-color: #ea580c;
+    }
+
+    .pill-btn.pinterest-btn {
+      background: #e60023;
+      color: #ffffff;
+      border-color: #e60023;
+    }
+
+    .pill-btn.pinterest-btn:hover {
+      background: #bd001d;
+      border-color: #bd001d;
     }
 
     /* SECTION TITLE */
@@ -213,22 +312,24 @@
 
     .card:hover {
       transform: translateY(-3px);
-      border-color: #6ee7b7;
+      border-color: #fdba74;
       box-shadow: var(--shadow-hover);
     }
 
     .card.featured {
-      background: linear-gradient(135deg, #ffffff 0%, #ecfdf5 100%);
-      border: 2px solid #10b981;
+      background: linear-gradient(135deg, #ffffff 0%, #fff7ed 100%);
+      border: 2px solid #f97316;
     }
 
     .card-thumb {
-      width: 72px;
-      height: 72px;
-      border-radius: 16px;
+      width: 76px;
+      height: 76px;
+      border-radius: 18px;
       object-fit: cover;
       flex-shrink: 0;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      background: #faf7f2;
+      border: 1px solid #f3e8dd;
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
     }
 
     .card-content {
@@ -247,8 +348,8 @@
       margin-bottom: 6px;
     }
 
-    .badge-deal { background: #fee2e2; color: #dc2626; }
-    .badge-bot { background: #dbeafe; color: #1e40af; }
+    .badge-deal { background: #ffedd5; color: #c2410c; }
+    .badge-bot { background: #e0f2fe; color: #0369a1; }
     .badge-tool { background: #fef3c7; color: #b45309; }
 
     .card-title {
@@ -381,71 +482,93 @@
         <img src="assets/logo.jpg" alt="Logo Volpe Delle Offerte" class="brand-logo">
         <div>
           <div class="brand-title">Volpe Delle Offerte 🦊</div>
-          <div class="brand-subtitle">Risparmio quotidiano & Bot Telegram</div>
+          <div class="brand-subtitle">Offerte verificate, Canale WhatsApp & Bot Telegram</div>
         </div>
       </a>
       <div class="verified-badge">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-        Verificato 2026
+        🦊 Originale & Gratuito
       </div>
     </header>
 
+    <!-- QUICK NAV -->
+    <nav class="quick-nav" aria-label="Collegamenti rapidi">
+      <a class="quick-pill" href="miniapp/">🛍️ Vetrina Offerte Live</a>
+      <a class="quick-pill" href="https://whatsapp.com/channel/0029VbETLnsD38CLMNvogI3g" target="_blank" rel="noopener">🟢 Canale WhatsApp</a>
+      <a class="quick-pill" href="https://t.me/offertiamazon" target="_blank" rel="noopener">🔥 Canale Telegram</a>
+      <a class="quick-pill pin-pill" href="https://www.pinterest.com/carnetdestyle_it/" target="_blank" rel="noopener">📌 Pinterest & Cartoline</a>
+    </nav>
+
     <!-- HERO -->
     <section class="hero">
-      <div class="hero-tag">💡 Tutti gli strumenti sono 100% Gratuiti</div>
-      <h1 class="hero-title">Risparmia centinaia di euro su <span>casa, spesa e bollette</span></h1>
+      <div class="hero-tag">🦊 Mascotte Ufficiale • Tutti gli strumenti sono 100% Gratuiti</div>
+      <h1 class="hero-title">Risparmia ogni giorno con la <span>Volpe Delle Offerte</span></h1>
       <p class="hero-desc">
-        Dimentica scontrini persi, volantini cartacei e tariffe gonfiate. Entra nella nostra rete Telegram e accedi gratis a tutti i bot automatici e alle migliori offerte verificate ogni giorno.
+        Sconti verificati su casa, spesa e tech, errori di prezzo e strumenti gratuiti su WhatsApp e Telegram: zero spam, zero costi nascosti.
       </p>
       <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+        <a href="https://whatsapp.com/channel/0029VbETLnsD38CLMNvogI3g" target="_blank" rel="noopener" class="hero-cta cta-wa">
+          <span>🟢 Unisciti al Canale WhatsApp</span>
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
         <a href="https://t.me/offertiamazon" target="_blank" rel="noopener" class="hero-cta">
           <span>🔥 Canale Telegram Offerte</span>
           <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
-        <a href="https://whatsapp.com/channel/0029VbETLnsD38CLMNvogI3g" target="_blank" rel="noopener" class="hero-cta" style="background: linear-gradient(135deg, #128c7e 0%, #25d366 100%); box-shadow: 0 10px 20px -5px rgba(37, 211, 102, 0.4);">
-          <span>🟢 Canale WhatsApp Ufficiale</span>
-          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <a href="miniapp/" class="hero-cta cta-outline">
+          <span>🛍️ Vetrina Offerte Live</span>
         </a>
       </div>
     </section>
 
     <!-- HUB SECTION -->
     <div class="section-header">
-      <h2 class="section-title">I Nostri Strumenti Gratuiti</h2>
-      <span class="section-badge">Tutti Gratuiti</span>
+      <h2 class="section-title">La Squadra della Volpe • Strumenti Gratuiti</h2>
+      <span class="section-badge">100% Gratis</span>
     </div>
 
     <div class="cards-grid">
 
-      <!-- SUPER BOT TUTTO IN UNO -->
-      <a href="https://t.me/scontiofferteGRATISlibri_bot" target="_blank" rel="noopener" class="card featured" style="border: 2px solid #3b82f6; background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);">
-        <img src="assets/super_bot.jpg" alt="Super Bot Tutto in Uno GRATIS" class="card-thumb" style="border-radius: 50%;">
+      <!-- VETRINA WEB OFFERTE -->
+      <a href="miniapp/" class="card featured">
+        <img src="assets/logo.jpg" alt="Vetrina Offerte Live Volpe Delle Offerte" class="card-thumb">
         <div class="card-content">
-          <span class="card-badge" style="background: #dbeafe; color: #1d4ed8;">⚡ NOVITÀ • BOT TUTTO IN UNO + MINI APP</span>
-          <h3 class="card-title">Tutto in uno GRATIS (@scontiofferteGRATISlibri_bot)</h3>
-          <p class="card-desc">L'assistente completo: Vetrina Mini App a tutto schermo, Scanner Scontrini PDF per 730, Volantini Spesa della settimana, eBook Kindle a 0,00€ e Tracking Pacchi in tempo reale.</p>
+          <span class="card-badge badge-deal">🛍️ VETRINA WEB • AGGIORNATA OGGI</span>
+          <h3 class="card-title">Vetrina Offerte &amp; Regali Live</h3>
+          <p class="card-desc">Sfoglia subito dal browser le migliori offerte Amazon selezionate dalla Volpe, filtrate per categoria e fascia di prezzo, pronte da condividere su WhatsApp.</p>
         </div>
-        <div class="card-arrow" style="background: #2563eb; color: white;">→</div>
+        <div class="card-arrow">→</div>
+      </a>
+
+      <!-- SUPER BOT TUTTO IN UNO -->
+      <a href="https://t.me/scontiofferteGRATISlibri_bot" target="_blank" rel="noopener" class="card featured">
+        <img src="assets/super_bot.jpg" alt="Super Bot Tutto in Uno GRATIS" class="card-thumb">
+        <div class="card-content">
+          <span class="card-badge badge-tool">⚡ BOT TUTTO IN UNO + MINI APP</span>
+          <h3 class="card-title">Tutto in uno GRATIS (@scontiofferteGRATISlibri_bot)</h3>
+          <p class="card-desc">L'assistente completo su Telegram: Vetrina Mini App a tutto schermo, Scanner Scontrini PDF per 730, Volantini Spesa della settimana, eBook Kindle a 0,00€ e Tracking Pacchi in tempo reale.</p>
+        </div>
+        <div class="card-arrow">→</div>
       </a>
 
       <!-- CANALE WHATSAPP UFFICIALE -->
-      <a href="https://whatsapp.com/channel/0029VbETLnsD38CLMNvogI3g" target="_blank" rel="noopener" class="card" style="border: 1px solid #86efac; background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);">
-        <div class="card-thumb" style="background: #25d366; display: flex; align-items: center; justify-content: center; font-size: 2rem; border-radius: 16px;">🟢</div>
+      <a href="https://whatsapp.com/channel/0029VbETLnsD38CLMNvogI3g" target="_blank" rel="noopener" class="card" style="border: 2px solid #86efac; background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);">
+        <div class="card-thumb" style="background: linear-gradient(135deg, #128c7e, #25d366); display: flex; align-items: center; justify-content: center; font-size: 2rem; border-color: #86efac;">🟢</div>
         <div class="card-content">
           <span class="card-badge" style="background: #dcfce7; color: #15803d;">💬 NOTIFICHE ZERO SPAM</span>
           <h3 class="card-title">Canale WhatsApp Offerte & Risparmio</h3>
-          <p class="card-desc">Ricevi comodamente su WhatsApp i migliori errori di prezzo, i ribassi della spesa e i regali gratis. 100% anonimo e sicuro.</p>
+          <p class="card-desc">Ricevi comodamente su WhatsApp i migliori errori di prezzo, i ribassi della spesa e gli sconti lampo segnalati dalla Volpe. 100% anonimo e sicuro.</p>
         </div>
         <div class="card-arrow" style="background: #16a34a; color: white;">→</div>
       </a>
 
       <!-- CANALE OFFERTE -->
-      <a href="https://t.me/offertiamazon" target="_blank" rel="noopener" class="card featured">
+      <a href="https://t.me/offertiamazon" target="_blank" rel="noopener" class="card">
         <img src="assets/deals.jpg" alt="Canale Offerte Amazon" class="card-thumb">
         <div class="card-content">
-          <span class="card-badge badge-deal">🔥 Canale Principale • Sconti fino al 70%</span>
-          <h3 class="card-title">Canale Offerte & Errori di Prezzo Amazon</h3>
-          <p class="card-desc">Offerte lampo verificate su prodotti per la casa, cucina, spesa e cura persona. Minimi storici con IVA inclusa.</p>
+          <span class="card-badge badge-deal">🔥 Canale Telegram • Sconti fino al 70%</span>
+          <h3 class="card-title">Canale Offerte & Errori di Prezzo</h3>
+          <p class="card-desc">Offerte lampo verificate su prodotti per la casa, cucina, spesa e moda. Minimi storici con IVA inclusa.</p>
         </div>
         <div class="card-arrow">→</div>
       </a>
@@ -513,11 +636,11 @@
       <div class="guide-item">
         <h4>Cartoline pulite da scaricare e condividere su WhatsApp</h4>
         <p style="margin-bottom: 12px;">Ogni giorno nuove immagini senza pubblicità invadenti pronte da salvare e mandare agli amici:</p>
-        <div class="footer-links" style="justify-content: flex-start; gap: 12px; margin-top: 8px;">
-          <a href="buongiorno/">☀️ Buongiorno</a>
-          <a href="buonanotte/">🌙 Buonanotte</a>
-          <a href="santi/">🎉 Santi & Buone Feste</a>
-          <a href="https://www.pinterest.com/carnetdestyle_it/" target="_blank">📌 Bacheca Pinterest</a>
+        <div class="action-pills">
+          <a class="pill-btn" href="buongiorno/">☀️ Buongiorno</a>
+          <a class="pill-btn" href="buonanotte/">🌙 Buonanotte</a>
+          <a class="pill-btn" href="santi/">🎉 Santi &amp; Buone Feste</a>
+          <a class="pill-btn pinterest-btn" href="https://www.pinterest.com/carnetdestyle_it/" target="_blank" rel="noopener">📌 Bacheca Pinterest</a>
         </div>
       </div>
     </section>

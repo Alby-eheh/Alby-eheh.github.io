@@ -3,10 +3,10 @@
   --surface: #ffffff;
   --ink: #1e293b;
   --muted: #64748b;
-  --accent: #9a4f34;
-  --accent-soft: #f5ebe4;
+  --accent: #c2410c;
+  --accent-soft: #fff7ed;
   --border: #e7dfd5;
-  --emerald: #059669;
+  --emerald: #ea580c;
 }
 
 * { box-sizing: border-box; }
@@ -34,10 +34,21 @@ body {
 }
 
 .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-weight: 800;
   font-size: 1.05rem;
   color: var(--ink);
   text-decoration: none;
+}
+
+.brand-logo-sm {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  object-fit: cover;
+  border: 1px solid #fed7aa;
 }
 
 .nav-pills {
@@ -61,6 +72,17 @@ body {
   background: var(--accent);
   color: #fff;
   border-color: var(--accent);
+}
+
+.nav-pills a.pinterest-pill {
+  background: #e60023;
+  color: #fff;
+  border-color: #e60023;
+}
+
+.nav-pills a.pinterest-pill:hover {
+  background: #bd001d;
+  border-color: #bd001d;
 }
 
 .container {
@@ -209,8 +231,8 @@ body {
 }
 
 .promo-subtle {
-  background: linear-gradient(135deg, #ecfdf5 0%, #f8fafc 100%);
-  border: 1px solid #bbf7d0;
+  background: linear-gradient(135deg, #fff7ed 0%, #faf7f2 100%);
+  border: 1px solid #fed7aa;
   border-radius: 18px;
   padding: 22px 24px;
   display: flex;
@@ -223,7 +245,7 @@ body {
 .promo-subtle h3 {
   margin: 0 0 4px;
   font-size: 1.1rem;
-  color: #065f46;
+  color: #9a3412;
 }
 
 .promo-subtle p {
@@ -250,8 +272,8 @@ body {
 
 .promo-links a.secondary {
   background: #fff;
-  color: #065f46;
-  border: 1px solid #86efac;
+  color: #9a3412;
+  border: 1px solid #fdba74;
 }
 
 footer {
