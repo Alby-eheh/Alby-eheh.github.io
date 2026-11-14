@@ -1,84 +1,167 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Informativa sulla Privacy - Volpe Delle Offerte</title>
-    <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            color: #2D241E;
-            background-color: #FAF7F2;
-            padding: 40px 20px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        h1, h2 { color: #1F1915; }
-        .card {
-            background: #FFFFFF;
-            padding: 30px;
-            border-radius: 12px;
-            border: 1px solid #EAE3D9;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-        }
-        a { color: #c2410c; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        .mini-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 18px;
-            padding-bottom: 14px;
-            border-bottom: 1px solid #EAE3D9;
-        }
-        .mini-header img {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            object-fit: cover;
-            border: 1px solid #fed7aa;
-        }
-        .mini-header a {
-            font-weight: 800;
-            font-size: 1.1rem;
-            color: #1F1915;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Informativa sulla Privacy - Volpe Delle Offerte</title>
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/site.css?v=20261114">
+  <style>
+    .privacy-wrap {
+      padding: 36px 20px 12px;
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .privacy-card {
+      background: var(--surface);
+      padding: 34px 32px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .privacy-eyebrow {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--fox);
+      margin-bottom: 8px;
+    }
+
+    .privacy-card h1 {
+      margin: 0 0 6px;
+      font-size: clamp(24px, 3.4vw, 32px);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+    }
+
+    .privacy-updated {
+      margin: 0 0 24px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .privacy-card h2 {
+      margin: 24px 0 8px;
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .privacy-card p {
+      margin: 0 0 12px;
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .privacy-card p strong {
+      color: var(--ink);
+    }
+
+    .privacy-card a {
+      color: var(--fox);
+      font-weight: 600;
+      text-decoration: underline;
+    }
+
+    .privacy-back {
+      margin-top: 26px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 640px) {
+      .privacy-wrap {
+        padding: 22px 14px 8px;
+      }
+
+      .privacy-card {
+        padding: 24px 18px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="card">
-        <div class="mini-header">
-            <img src="assets/logo.jpg" alt="Logo Volpe Delle Offerte">
-            <a href="https://alby-eheh.github.io/">Volpe Delle Offerte 🦊</a>
-        </div>
-        <h1>Informativa sulla Privacy (Privacy Policy)</h1>
-        <p><strong>Ultimo aggiornamento:</strong> 14 Novembre 2026</p>
-        
-        <h2>1. Titolare del Trattamento</h2>
-        <p>Volpe Delle Offerte (<a href="https://alby-eheh.github.io/">alby-eheh.github.io</a>) gestisce questo sito web a scopo informativo ed editoriale per la condivisione di offerte, guide lifestyle e volantini online.</p>
-
-        <h2>2. Dati Raccolti</h2>
-        <p>Il nostro sito web non raccoglie né memorizza dati personali sensibili degli utenti senza il loro esplicito consenso. I dati di navigazione standard (log di sistema anonimi gestiti da GitHub Pages) sono utilizzati unicamente per garantire la sicurezza e la corretta visualizzazione delle pagine.</p>
-
-        <h2>3. Cookie e Link di Terze Parti</h2>
-        <p>Il sito può contenere link a servizi esterni (inclusi Telegram, WhatsApp, Amazon e Pinterest). Quando si clicca su tali collegamenti, si viene reindirizzati a piattaforme terze regolate dalle rispettive informative sulla privacy.</p>
-
-        <h2>4. Link di Affiliazione Amazon</h2>
-        <p>In qualit&agrave; di Affiliato Amazon ricevo un guadagno dagli acquisti idonei, senza alcun costo aggiuntivo per l'utente. I link verso Amazon contengono un tag di affiliazione e sono contrassegnati con <strong>#adv</strong>. Amazon pu&ograve; impostare propri cookie quando si visita il suo sito: per i relativi trattamenti si rimanda all'informativa di Amazon.it. I prezzi indicati sono quelli rilevati al momento della pubblicazione e possono variare.</p>
-
-        <h2>5. Mini App Telegram e Bot</h2>
-        <p>La Mini App e i bot Telegram collegati ricevono da Telegram solo le informazioni strettamente necessarie al funzionamento (ad esempio ID utente e nome pubblico, usati per rispondere ai messaggi e verificare l'iscrizione al canale). Le foto o i documenti inviati ai bot di utilit&agrave; (es. conversione in PDF) vengono elaborati solo per fornire il servizio richiesto e non vengono ceduti a terzi. Gli allarmi di prezzo memorizzano esclusivamente l'ID utente, il link del prodotto e la soglia scelta.</p>
-
-        <h2>6. Pinterest</h2>
-        <p>I contenuti pubblicati sull'account Pinterest <strong>@carnetdestyle_it</strong> rimandano a questo sito. Questo sito non raccoglie dati dei visitatori provenienti da Pinterest oltre ai log tecnici anonimi di GitHub Pages.</p>
-
-        <h2>7. Diritti dell'Utente e Contatti</h2>
-        <p>Gli utenti hanno il diritto in qualsiasi momento di richiedere informazioni sull'eventuale trattamento dei propri dati o di richiederne la cancellazione, scrivendo al gestore tramite il canale Telegram ufficiale <a href="https://t.me/offertiamazon">@offertiamazon</a>, il <a href="https://whatsapp.com/channel/0029VbETLnsD38CLMNvogI3g">Canale WhatsApp Volpe Delle Offerte</a> o il bot <a href="https://t.me/scontiofferteGRATISlibri_bot">@scontiofferteGRATISlibri_bot</a>. Resta salvo il diritto di proporre reclamo al Garante per la protezione dei dati personali (<a href="https://www.garanteprivacy.it">garanteprivacy.it</a>).</p>
-
-        <p><a href="https://alby-eheh.github.io/">← Torna alla Home di Volpe Delle Offerte</a></p>
+  <header class="site-topbar">
+    <div class="site-topbar-inner">
+      <a class="site-brand" href="./">
+        <img src="assets/logo.jpg" alt="Volpe Delle Offerte">
+        <span>Volpe Delle Offerte</span>
+      </a>
+      <nav class="site-nav" aria-label="Menu principale">
+        <a href="./">Home</a>
+        <a href="miniapp/">Offerte Live</a>
+        <a href="buongiorno/">Cartoline</a>
+        <a class="nav-pinterest" href="https://www.pinterest.com/carnetdestyle_it/" target="_blank" rel="noopener">
+          <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.65 7.86 6.39 9.29-.09-.78-.17-1.98.04-2.83.18-.77 1.18-5.01 1.18-5.01s-.3-.6-.3-1.49c0-1.4.81-2.44 1.82-2.44.86 0 1.27.64 1.27 1.41 0 .86-.55 2.15-.83 3.34-.24 1 .5 1.81 1.48 1.81 1.78 0 3.14-1.88 3.14-4.59 0-2.4-1.72-4.08-4.18-4.08-2.85 0-4.52 2.14-4.52 4.35 0 .86.33 1.78.75 2.28.08.1.09.19.07.29-.08.31-.25 1-.28 1.14-.04.18-.15.22-.34.13-1.25-.58-2.03-2.41-2.03-3.88 0-3.16 2.3-6.06 6.62-6.06 3.48 0 6.18 2.48 6.18 5.79 0 3.45-2.18 6.23-5.2 6.23-1.02 0-1.97-.53-2.3-1.15l-.63 2.38c-.23.87-.84 1.96-1.25 2.62.94.29 1.94.45 2.98.45 5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>
+          Pinterest
+        </a>
+      </nav>
     </div>
+  </header>
+
+  <main class="privacy-wrap">
+    <article class="privacy-card">
+      <span class="privacy-eyebrow">Trasparenza &amp; Note Legali</span>
+      <h1>Informativa sulla Privacy (Privacy Policy)</h1>
+      <p class="privacy-updated"><strong>Ultimo aggiornamento:</strong> 14 Novembre 2026</p>
+
+      <h2>1. Titolare del Trattamento</h2>
+      <p>Volpe Delle Offerte (<a href="https://alby-eheh.github.io/">alby-eheh.github.io</a>) gestisce questo sito web a scopo informativo ed editoriale per la condivisione di offerte, guide lifestyle e volantini online.</p>
+
+      <h2>2. Dati Raccolti</h2>
+      <p>Il nostro sito web non raccoglie né memorizza dati personali sensibili degli utenti senza il loro esplicito consenso. I dati di navigazione standard (log di sistema anonimi gestiti da GitHub Pages) sono utilizzati unicamente per garantire la sicurezza e la corretta visualizzazione delle pagine.</p>
+
+      <h2>3. Cookie e Link di Terze Parti</h2>
+      <p>Il sito può contenere link a servizi esterni (inclusi Telegram, WhatsApp, Amazon e Pinterest). Quando si clicca su tali collegamenti, si viene reindirizzati a piattaforme terze regolate dalle rispettive informative sulla privacy.</p>
+
+      <h2>4. Link di Affiliazione Amazon</h2>
+      <p>In qualit&agrave; di Affiliato Amazon ricevo un guadagno dagli acquisti idonei, senza alcun costo aggiuntivo per l'utente. I link verso Amazon contengono un tag di affiliazione e sono contrassegnati con <strong>#adv</strong>. Amazon pu&ograve; impostare propri cookie quando si visita il suo sito: per i relativi trattamenti si rimanda all'informativa di Amazon.it. I prezzi indicati sono quelli rilevati al momento della pubblicazione e possono variare.</p>
+
+      <h2>5. Mini App Telegram e Bot</h2>
+      <p>La Mini App e i bot Telegram collegati ricevono da Telegram solo le informazioni strettamente necessarie al funzionamento (ad esempio ID utente e nome pubblico, usati per rispondere ai messaggi e verificare l'iscrizione al canale). Le foto o i documenti inviati ai bot di utilit&agrave; (es. conversione in PDF) vengono elaborati solo per fornire il servizio richiesto e non vengono ceduti a terzi. Gli allarmi di prezzo memorizzano esclusivamente l'ID utente, il link del prodotto e la soglia scelta.</p>
+
+      <h2>6. Pinterest</h2>
+      <p>I contenuti pubblicati sull'account Pinterest <strong>@carnetdestyle_it</strong> rimandano a questo sito. Questo sito non raccoglie dati dei visitatori provenienti da Pinterest oltre ai log tecnici anonimi di GitHub Pages.</p>
+
+      <h2>7. Diritti dell'Utente e Contatti</h2>
+      <p>Gli utenti hanno il diritto in qualsiasi momento di richiedere informazioni sull'eventuale trattamento dei propri dati o di richiederne la cancellazione, scrivendo al gestore tramite il canale Telegram ufficiale <a href="https://t.me/offertiamazon">@offertiamazon</a>, il <a href="https://whatsapp.com/channel/0029VbETLnsD38CLMNvogI3g">Canale WhatsApp Volpe Delle Offerte</a> o il bot <a href="https://t.me/scontiofferteGRATISlibri_bot">@scontiofferteGRATISlibri_bot</a>. Resta salvo il diritto di proporre reclamo al Garante per la protezione dei dati personali (<a href="https://www.garanteprivacy.it">garanteprivacy.it</a>).</p>
+
+      <div class="privacy-back">
+        <a class="btn btn-outline" style="text-decoration: none;" href="./">← Torna alla Home</a>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <div class="site-footer-top">
+        <div class="site-footer-brand">
+          <img src="assets/logo.jpg" alt="Volpe Delle Offerte">
+          <span>Volpe Delle Offerte</span>
+        </div>
+        <nav class="site-footer-links" aria-label="Link utili">
+          <a href="./">Home</a>
+          <a href="miniapp/">Offerte Live</a>
+          <a href="buongiorno/">Cartoline</a>
+          <a href="https://whatsapp.com/channel/0029VbETLnsD38CLMNvogI3g" target="_blank" rel="noopener">Canale WhatsApp</a>
+          <a href="https://www.pinterest.com/carnetdestyle_it/" target="_blank" rel="noopener">Pinterest</a>
+        </nav>
+      </div>
+      <div class="site-footer-legal">
+        #adv — In qualità di Affiliato Amazon ricevo un guadagno dagli acquisti idonei.
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
-

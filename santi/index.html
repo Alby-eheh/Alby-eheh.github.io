@@ -9,22 +9,43 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/cartoline.css">
+  <link rel="stylesheet" href="../assets/site.css?v=20261114">
+  <link rel="stylesheet" href="../assets/cartoline.css?v=20261114">
 </head>
 <body>
-  <header class="topbar">
-    <a class="brand" href="../"><img src="../assets/logo.jpg" alt="" class="brand-logo-sm"> Volpe Delle Offerte</a>
-    <nav class="nav-pills">
-      <a href="../buongiorno/">Buongiorno</a>
-      <a href="../buonanotte/">Buonanotte</a>
-      <a class="active" href="../santi/">Santi e Feste</a>
-      <a href="../miniapp/">Offerte Casa</a>
-      <a class="pinterest-pill" href="https://www.pinterest.com/carnetdestyle_it/" target="_blank" rel="noopener">📌 Pinterest</a>
-    </nav>
+  <header class="site-topbar">
+    <div class="site-topbar-inner">
+      <a class="site-brand" href="../">
+        <img src="../assets/logo.jpg" alt="Volpe Delle Offerte">
+        <span>Volpe Delle Offerte</span>
+      </a>
+      <nav class="site-nav" aria-label="Menu principale">
+        <a href="../">Home</a>
+        <a href="../miniapp/">Offerte Live</a>
+        <a class="is-active" href="../buongiorno/">Cartoline</a>
+        <a class="nav-pinterest" href="https://www.pinterest.com/carnetdestyle_it/" target="_blank" rel="noopener">
+          <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.65 7.86 6.39 9.29-.09-.78-.17-1.98.04-2.83.18-.77 1.18-5.01 1.18-5.01s-.3-.6-.3-1.49c0-1.4.81-2.44 1.82-2.44.86 0 1.27.64 1.27 1.41 0 .86-.55 2.15-.83 3.34-.24 1 .5 1.81 1.48 1.81 1.78 0 3.14-1.88 3.14-4.59 0-2.4-1.72-4.08-4.18-4.08-2.85 0-4.52 2.14-4.52 4.35 0 .86.33 1.78.75 2.28.08.1.09.19.07.29-.08.31-.25 1-.28 1.14-.04.18-.15.22-.34.13-1.25-.58-2.03-2.41-2.03-3.88 0-3.16 2.3-6.06 6.62-6.06 3.48 0 6.18 2.48 6.18 5.79 0 3.45-2.18 6.23-5.2 6.23-1.02 0-1.97-.53-2.3-1.15l-.63 2.38c-.23.87-.84 1.96-1.25 2.62.94.29 1.94.45 2.98.45 5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>
+          Pinterest
+        </a>
+      </nav>
+    </div>
   </header>
 
-  <main class="container">
+  <main class="container cartoline-container">
+    <div class="subnav-bar">
+      <nav class="subnav-pills" aria-label="Categorie cartoline">
+        <a href="../buongiorno/">Buongiorno</a>
+        <a href="../buonanotte/">Buonanotte</a>
+        <a class="active" href="../santi/">Santi e Feste</a>
+      </nav>
+      <a class="subnav-pinterest-note" href="https://www.pinterest.com/carnetdestyle_it/" target="_blank" rel="noopener">
+        <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.65 7.86 6.39 9.29-.09-.78-.17-1.98.04-2.83.18-.77 1.18-5.01 1.18-5.01s-.3-.6-.3-1.49c0-1.4.81-2.44 1.82-2.44.86 0 1.27.64 1.27 1.41 0 .86-.55 2.15-.83 3.34-.24 1 .5 1.81 1.48 1.81 1.78 0 3.14-1.88 3.14-4.59 0-2.4-1.72-4.08-4.18-4.08-2.85 0-4.52 2.14-4.52 4.35 0 .86.33 1.78.75 2.28.08.1.09.19.07.29-.08.31-.25 1-.28 1.14-.04.18-.15.22-.34.13-1.25-.58-2.03-2.41-2.03-3.88 0-3.16 2.3-6.06 6.62-6.06 3.48 0 6.18 2.48 6.18 5.79 0 3.45-2.18 6.23-5.2 6.23-1.02 0-1.97-.53-2.3-1.15l-.63 2.38c-.23.87-.84 1.96-1.25 2.62.94.29 1.94.45 2.98.45 5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>
+        Seguici su Pinterest (@carnetdestyle_it)
+      </a>
+    </div>
+
     <section class="hero">
+      <span class="hero-eyebrow">Almanacco e Ricorrenze</span>
       <h1>Santo del Giorno, Onomastici e Feste</h1>
       <p>Cartoline curate con la data e il Santo del giorno, pronte per fare gli auguri di buon onomastico su WhatsApp.</p>
     </section>
@@ -78,10 +99,30 @@
       </div>
     </aside>
 
-    <footer>
-      <p><a href="../">Home</a> · <a href="../buongiorno/">Buongiorno</a> · <a href="../buonanotte/">Buonanotte</a> · <a href="https://www.pinterest.com/carnetdestyle_it/" target="_blank">Pinterest</a> · <a href="../privacy.html">Privacy</a></p>
-    </footer>
   </main>
+
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <div class="site-footer-top">
+        <div class="site-footer-brand">
+          <img src="../assets/logo.jpg" alt="Volpe Delle Offerte">
+          <span>Volpe Delle Offerte</span>
+        </div>
+        <nav class="site-footer-links" aria-label="Link utili">
+          <a href="../">Home</a>
+          <a href="../miniapp/">Offerte Live</a>
+          <a href="../buongiorno/">Buongiorno</a>
+          <a href="../buonanotte/">Buonanotte</a>
+          <a href="https://whatsapp.com/channel/0029VbETLnsD38CLMNvogI3g" target="_blank" rel="noopener">Canale WhatsApp</a>
+          <a href="https://www.pinterest.com/carnetdestyle_it/" target="_blank" rel="noopener">Pinterest</a>
+          <a href="../privacy.html">Privacy</a>
+        </nav>
+      </div>
+      <div class="site-footer-legal">
+        #adv — In qualità di Affiliato Amazon ricevo un guadagno dagli acquisti idonei. Cartoline gratuite senza scritte pubblicitarie.
+      </div>
+    </div>
+  </footer>
   <script src="../assets/cartoline.js"></script>
 </body>
 </html>

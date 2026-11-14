@@ -10,14 +10,46 @@
   <link rel="icon" type="image/jpeg" href="../assets/logo.jpg">
   <!-- Telegram WebApp SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/site.css?v=20261114">
   <style>
     :root {
+      --bg-color: #faf7f2;
+      --card-bg: #ffffff;
+      --text-color: #0f172a;
+      --hint-color: #57534e;
+      --btn-color: #ea580c;
+      --btn-text: #ffffff;
+      --surface-soft: #f3ede2;
+      --card-border: #e6dec8;
+      --input-bg: #ffffff;
+      --pill-bg: #ffffff;
+      --pill-text: #57534e;
+      --pill-border: #e6dec8;
+      --wa-bg-tint: #f0fdf4;
+      --wa-border-tint: #bbf7d0;
+      --price-green: #15803d;
+    }
+
+    html[data-tg-theme="dark"] {
       --bg-color: var(--tg-theme-bg-color, #0f172a);
       --card-bg: var(--tg-theme-secondary-bg-color, #1e293b);
       --text-color: var(--tg-theme-text-color, #f8fafc);
       --hint-color: var(--tg-theme-hint-color, #94a3b8);
-      --btn-color: var(--tg-theme-button-color, #ff9900);
+      --btn-color: var(--tg-theme-button-color, #ea580c);
       --btn-text: var(--tg-theme-button-text-color, #ffffff);
+      --surface-soft: #1e293b;
+      --card-border: #334155;
+      --input-bg: #1e293b;
+      --pill-bg: #1e293b;
+      --pill-text: #cbd5e1;
+      --pill-border: #334155;
+      --wa-bg-tint: rgba(22, 163, 74, 0.14);
+      --wa-border-tint: rgba(34, 197, 94, 0.35);
+      --price-green: #34d399;
+    }
       --accent-red: #ef4444;
       --accent-green: #10b981;
       --accent-gold: #f59e0b;
@@ -312,7 +344,7 @@
     .current-price {
       font-size: 1.15rem;
       font-weight: 900;
-      color: #10b981;
+      color: var(--price-green);
     }
 
     .orig-price {
@@ -330,20 +362,24 @@
 
     .btn-buy {
       width: 100%;
-      background: #ff9900;
-      color: #111;
-      font-size: 0.78rem;
+      background: #ea580c;
+      color: #ffffff;
+      font-size: 0.8rem;
       font-weight: 800;
-      padding: 8px 10px;
+      padding: 9px 10px;
       border: none;
-      border-radius: 10px;
+      border-radius: 9px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 4px;
+      gap: 5px;
       text-decoration: none;
-      transition: opacity 0.2s;
+      transition: background-color 0.15s ease, opacity 0.2s;
+    }
+
+    .btn-buy:hover {
+      background: #c2410c;
     }
 
     .btn-buy:active {
@@ -358,9 +394,9 @@
 
     .btn-wa-direct {
       flex: 1.15;
-      background: #25d366;
+      background: #15803d;
       color: #ffffff;
-      font-size: 0.72rem;
+      font-size: 0.73rem;
       font-weight: 700;
       padding: 7px 6px;
       border: none;
@@ -371,7 +407,11 @@
       justify-content: center;
       gap: 4px;
       text-decoration: none;
-      transition: transform 0.1s, opacity 0.2s;
+      transition: background-color 0.15s ease, transform 0.1s, opacity 0.2s;
+    }
+
+    .btn-wa-direct:hover {
+      background: #166534;
     }
 
     .btn-wa-direct:active {
@@ -381,10 +421,10 @@
 
     .btn-copy {
       flex: 1;
-      background: rgba(37, 211, 102, 0.15);
-      border: 1px solid rgba(37, 211, 102, 0.35);
-      color: #25d366;
-      font-size: 0.72rem;
+      background: var(--wa-bg-tint);
+      border: 1px solid var(--wa-border-tint);
+      color: var(--price-green);
+      font-size: 0.73rem;
       font-weight: 700;
       padding: 7px 6px;
       border-radius: 8px;
@@ -398,24 +438,24 @@
     }
 
     .btn-copy:active {
-      background: rgba(37, 211, 102, 0.35);
+      opacity: 0.85;
       transform: scale(0.97);
     }
 
     /* Toast Notification */
     .toast {
       position: fixed;
-      bottom: 74px;
+      bottom: 24px;
       left: 50%;
       transform: translateX(-50%) translateY(120px);
-      background: #1e293b;
-      border: 1px solid #10b981;
+      background: #0f172a;
+      border: 1px solid #ea580c;
       color: #f8fafc;
       padding: 10px 18px;
       border-radius: 30px;
       font-size: 0.85rem;
       font-weight: 700;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.25);
       display: flex;
       align-items: center;
       gap: 8px;
@@ -506,9 +546,264 @@
       text-align: center;
       margin-bottom: 8px;
     }
+    /* Override Sistema Editoriale Volpe Delle Offerte */
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: var(--font-sans);
+      margin: 0;
+      padding: 0;
+    }
+
+    .header {
+      position: static;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      max-width: 920px;
+      width: calc(100% - 40px);
+      margin: 24px auto 14px;
+      padding: 20px 22px;
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: none;
+    }
+
+    .header h1,
+    .header-title {
+      color: var(--text-color);
+      background: none;
+      -webkit-background-clip: border-box;
+      -webkit-text-fill-color: currentColor;
+    }
+
+    .header p,
+    .header-subtitle,
+    .header-sub {
+      color: var(--hint-color);
+    }
+
+    .wa-banner {
+      max-width: 920px;
+      width: calc(100% - 40px);
+      margin: 0 auto 14px;
+      background: var(--wa-bg-tint);
+      border: 1px solid var(--wa-border-tint);
+      border-radius: 14px;
+      color: var(--text-color);
+    }
+
+    .wa-banner strong,
+    .wa-banner-title {
+      color: var(--price-green);
+    }
+
+    .wa-banner p,
+    .wa-banner-sub {
+      color: var(--hint-color);
+    }
+
+    .wa-banner a,
+    .wa-banner-btn {
+      background: #15803d;
+      color: #ffffff;
+    }
+
+    .search-box {
+      max-width: 920px;
+      width: calc(100% - 40px);
+      margin: 0 auto 12px;
+      padding: 0;
+    }
+
+    .search-input,
+    #searchInput {
+      background: var(--input-bg);
+      color: var(--text-color);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .search-input::placeholder,
+    #searchInput::placeholder {
+      color: var(--hint-color);
+    }
+
+    .categories-scroll,
+    .price-filters {
+      max-width: 960px;
+      margin: 0 auto 10px;
+      padding: 4px 20px;
+    }
+
+    .cat-pill,
+    .price-pill {
+      background: var(--pill-bg);
+      color: var(--pill-text);
+      border: 1px solid var(--pill-border);
+      font-weight: 700;
+    }
+
+    .cat-pill:hover,
+    .price-pill:hover {
+      border-color: #ea580c;
+      color: var(--text-color);
+    }
+
+    .cat-pill.active,
+    .price-pill.active {
+      background: #0f172a;
+      color: #ffffff;
+      border-color: #0f172a;
+    }
+
+    html[data-tg-theme="dark"] .cat-pill.active,
+    html[data-tg-theme="dark"] .price-pill.active {
+      background: #ea580c;
+      border-color: #ea580c;
+    }
+
+    .deals-grid {
+      max-width: 960px;
+      margin: 12px auto 0;
+      padding: 0 20px 24px;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 16px;
+    }
+
+    .deal-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+    }
+
+    .deal-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--border-strong);
+      box-shadow: var(--shadow-md);
+    }
+
+    .image-container {
+      background: #ffffff;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .badge-tag {
+      background: rgba(15, 23, 42, 0.88);
+      color: #ffffff;
+      border: none;
+    }
+
+    .radar-banner {
+      max-width: 920px;
+      width: calc(100% - 40px);
+      margin: 16px auto 24px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-left: 4px solid #ea580c;
+      border-radius: 14px;
+      color: var(--text-color);
+    }
+
+    .radar-banner p {
+      color: var(--hint-color);
+    }
+
+    .radar-banner button,
+    .btn-radar {
+      background: #ea580c;
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .search-fallback-card,
+    .empty-state {
+      grid-column: 1 / -1;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 28px 20px;
+      color: var(--text-color);
+      text-align: center;
+    }
+
+    .empty-state p {
+      color: var(--hint-color);
+    }
+
+    .legal-footer {
+      max-width: 960px;
+      margin: 24px auto 0;
+      padding: 20px 20px 12px;
+      border-top: 1px solid var(--card-border);
+      color: var(--hint-color);
+      font-size: 12px;
+      line-height: 1.65;
+      background: transparent;
+    }
+
+    .site-footer {
+      margin-top: 12px;
+      padding-top: 20px;
+    }
+
+    .legal-footer a {
+      color: #ea580c;
+      font-weight: 600;
+      text-decoration: underline;
+    }
+
+    @media (max-width: 640px) {
+      .header,
+      .wa-banner,
+      .search-box,
+      .radar-banner {
+        width: calc(100% - 28px);
+      }
+
+      .header {
+        margin: 16px auto 12px;
+        padding: 16px;
+      }
+
+      .categories-scroll,
+      .price-filters,
+      .deals-grid {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      .deals-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+    }
   </style>
 </head>
 <body>
+  <header class="site-topbar">
+    <div class="site-topbar-inner">
+      <a class="site-brand" href="../">
+        <img src="../assets/logo.jpg" alt="Volpe Delle Offerte">
+        <span>Volpe Delle Offerte</span>
+      </a>
+      <nav class="site-nav" aria-label="Menu principale">
+        <a href="../">Home</a>
+        <a class="is-active" href="../miniapp/">Offerte Live</a>
+        <a href="../buongiorno/">Cartoline</a>
+        <a class="nav-pinterest" href="https://www.pinterest.com/carnetdestyle_it/" target="_blank" rel="noopener">
+          <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.65 7.86 6.39 9.29-.09-.78-.17-1.98.04-2.83.18-.77 1.18-5.01 1.18-5.01s-.3-.6-.3-1.49c0-1.4.81-2.44 1.82-2.44.86 0 1.27.64 1.27 1.41 0 .86-.55 2.15-.83 3.34-.24 1 .5 1.81 1.48 1.81 1.78 0 3.14-1.88 3.14-4.59 0-2.4-1.72-4.08-4.18-4.08-2.85 0-4.52 2.14-4.52 4.35 0 .86.33 1.78.75 2.28.08.1.09.19.07.29-.08.31-.25 1-.28 1.14-.04.18-.15.22-.34.13-1.25-.58-2.03-2.41-2.03-3.88 0-3.16 2.3-6.06 6.62-6.06 3.48 0 6.18 2.48 6.18 5.79 0 3.45-2.18 6.23-5.2 6.23-1.02 0-1.97-.53-2.3-1.15l-.63 2.38c-.23.87-.84 1.96-1.25 2.62.94.29 1.94.45 2.98.45 5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>
+          Pinterest
+        </a>
+      </nav>
+    </div>
+  </header>
 
   <!-- Header -->
   <header class="header">
@@ -959,8 +1254,31 @@
       });
     }
 
+    // Adatta automaticamente al tema scuro se aperto dentro Telegram WebApp Dark
+    if (typeof tg !== 'undefined' && tg && tg.colorScheme === 'dark') {
+      document.documentElement.setAttribute('data-tg-theme', 'dark');
+    }
+
     // Caricamento iniziale
     loadDeals();
   </script>
+
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <div class="site-footer-top">
+        <div class="site-footer-brand">
+          <img src="../assets/logo.jpg" alt="Volpe Delle Offerte">
+          <span>Volpe Delle Offerte</span>
+        </div>
+        <nav class="site-footer-links" aria-label="Link utili">
+          <a href="../">Home</a>
+          <a href="../buongiorno/">Cartoline</a>
+          <a href="https://whatsapp.com/channel/0029VbETLnsD38CLMNvogI3g" target="_blank" rel="noopener">Canale WhatsApp</a>
+          <a href="https://www.pinterest.com/carnetdestyle_it/" target="_blank" rel="noopener">Pinterest</a>
+          <a href="../privacy.html">Privacy Policy</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
