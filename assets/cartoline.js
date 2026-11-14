@@ -12,3 +12,4 @@ document.addEventListener('click', async (event) => {
     prompt('Copia la frase:', text);
   }
 });
+
